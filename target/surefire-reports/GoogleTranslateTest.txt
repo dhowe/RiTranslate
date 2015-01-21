@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: GoogleTranslateTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.229 sec <<< FAILURE!
 testSeeAlso(GoogleTranslateTest)  Time elapsed: 0.134 sec  <<< FAILURE!
 java.lang.AssertionError
@@ -40,3 +41,6 @@ java.lang.AssertionError
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
+=======
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.629 sec
+>>>>>>> 18b440822dad0111caa462b554958bd50e350c85
