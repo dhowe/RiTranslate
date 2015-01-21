@@ -1,15 +1,9 @@
-package google;
+package translate;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-
-import rita.RiScraper;
-import rita.RiTa;
 
 public class GoogleTranslate {
 	static String TEST_JSON_DATA = null; // set to null to use real data from google
@@ -325,11 +319,11 @@ public class GoogleTranslate {
 	}
 
 	private static JSONArray resultArray(String urlTocall) {
-		RiScraper scraper = new RiScraper();
+		SouperScraper scraper = new SouperScraper();
 		scraper.ignoreContentType(true);
 
-		String json = TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
-				: scraper.connect(urlTocall).body();
+		String json = //TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
+				scraper.connect(urlTocall).body();
 
 		Object obj = JSONValue.parse(json);
 		JSONArray array = (JSONArray) obj;
