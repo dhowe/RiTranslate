@@ -16,7 +16,7 @@ public class GoogleTranslateTest {
 	private String testString_01 = "meant";
 	
 	// following keywords should have no returns or anything
-	private String testString_02 = "Dog";
+	private String testString_02 = "ASDF";
 	private String testString_03 = "JSON";
 	
 	@Before
