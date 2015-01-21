@@ -1,19 +1,16 @@
-package translate;
+package google;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
-/*
- * TODO:
- *  definitions	// done and passed the boundary and expected result test
- *  glosses		// done and passed the boundary and expected result test
- *  examples	// done and passed the boundary and expected result test
- *  synonyms	// done and passed the boundary and expected result test
- *  seeAlso		// done and passed the boundary and expected result test
- *  
- */
+import rita.RiScraper;
+import rita.RiTa;
+
 public class GoogleTranslate {
 	static String TEST_JSON_DATA = null; // set to null to use real data from google
 
@@ -51,8 +48,8 @@ public class GoogleTranslate {
 			String[] s = new String[list_string.size()];
 			list_string.toArray(s);
 
-			for (int j = 0; j < s.length; j++)
-				System.out.println(s[j]);
+			// for (int j = 0; j < s.length; j++)
+				// System.out.println(s[j]);
 
 			return s;
 
@@ -75,8 +72,8 @@ public class GoogleTranslate {
 					String[] s = new String[list_string.size()];
 					list_string.toArray(s);
 
-					for (int j = 0; j < s.length; j++)
-						System.out.println(s[j]);
+					// for (int j = 0; j < s.length; j++)
+						// System.out.println(s[j]);
 
 					return s;
 				}
@@ -98,15 +95,16 @@ public class GoogleTranslate {
 		// System.out.println( "array: " + array );
 		// System.out.println( "array.size(): " + array.size() );
 		
-		if ( array.size() < 5) {
+		if ( array.size() < 6 ) {
 			return null;
 		}
 		
 		JSONArray trans = (JSONArray) ((JSONArray) array.get(array.size() - 2)).get(0);
+		// System.out.println( "trans: " + trans );
 
 		String[] s = new String[trans.size()];
 		if ( trans.size() == 1 ) {
-			System.out.println( "trans.size(): " + trans.size() );
+			// System.out.println( "trans.size(): " + trans.size() );
 			s[0] = text;
 			return s;
 		}
@@ -131,12 +129,12 @@ public class GoogleTranslate {
 		// System.out.println( "array: " + array );
 		// System.out.println( "array.size(): " + array.size() );
 		
-		if ( array.size() < 5) {
+		if ( array.size() < 6) {
 			return null;
 		}
 		
-		JSONArray trans = ( (JSONArray) array.get( array.size() / 2 + 1 ) );
-
+		JSONArray trans = ( (JSONArray) array.get( 5 ) );
+		// System.out.println(trans);
 		String p = pos.toLowerCase();
 						
 		for (int i = 0; i < trans.size(); i++) {
@@ -209,11 +207,12 @@ public class GoogleTranslate {
 		// System.out.println( "array: " + array );
 		// System.out.println( "array.size(): " + array.size() );
 				
-		if ( array.size() < 5) {
+		if ( array.size() < 6 ) {
 			return null;
 		}
 		
-		JSONArray trans = ((JSONArray) array.get(array.size() / 2 + 1 ));
+		JSONArray trans = ((JSONArray) array.get( 5 ));
+		// System.out.println( "trans: " + trans );
 
 		String p = pos.toLowerCase();
 		String[] s;
@@ -252,11 +251,12 @@ public class GoogleTranslate {
 		// System.out.println( "array: " + array );
 		// System.out.println( "array.size(): " + array.size() );
 				
-		if ( array.size() < 5) {
+		if ( array.size() < 6 ) {
 			return null;
 		}
 
-		JSONArray trans = (JSONArray) array.get( array.size() / 2 );
+		JSONArray trans = (JSONArray) array.get( 4 );
+		// System.out.println( "trans: " + trans );
 		
 		Object cmp = new Double(1.1);
 		// check if this is Double type, if yes then that means no synonyms
@@ -292,8 +292,8 @@ public class GoogleTranslate {
 			    String[] s = new String[set.size()];
 			    set.toArray(s);
 			    
-				for (int j = 0; j < s.length; j++)
-					System.out.println(s[j]);
+				// for (int j = 0; j < s.length; j++)
+					// System.out.println(s[j]);
 				
 				return s;
 			}
@@ -325,14 +325,11 @@ public class GoogleTranslate {
 	}
 
 	private static JSONArray resultArray(String urlTocall) {
-	  
-		SouperScraper scraper = new SouperScraper();
+		RiScraper scraper = new RiScraper();
 		scraper.ignoreContentType(true);
 
-		// TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
-		String json = scraper.connect(urlTocall).body();
-
-		// System.out.println(json);
+		String json = TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
+				: scraper.connect(urlTocall).body();
 
 		Object obj = JSONValue.parse(json);
 		JSONArray array = (JSONArray) obj;
@@ -349,11 +346,11 @@ public class GoogleTranslate {
 		// System.out.println(new GoogleTranslate().translate("bring", "en", "zh-cn"));
 		
 		// new GoogleTranslate().seeAlso("dog");
-		// new GoogleTranslate().examples("man");
-		// new GoogleTranslate().definitions("manly", "noun");
+		// new GoogleTranslate().examples("meant");
+		// new GoogleTranslate().definitions("manly", "adjective");
 		// new GoogleTranslate().synonyms("good", "noun");
 		// new GoogleTranslate().synonyms("manly", "adjective");
-		// new GoogleTranslate().glosses("manly", "adjective");
+		// new GoogleTranslate().glosses("meant", "verb");
 
 	}
 }
