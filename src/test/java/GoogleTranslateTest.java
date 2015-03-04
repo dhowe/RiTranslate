@@ -146,9 +146,9 @@ public class GoogleTranslateTest {
 		String testString02 = "manly";
 		
 		String [] expectedResult02 = {
-				"having or denoting those good qualities traditionally associated with men, such as courage and strength."
+				"manfully"
 		};	
-		assertArrayEquals( expectedResult02, googleTranslate.definitions( testString02, "adjective" ) );
+		assertArrayEquals( expectedResult02, googleTranslate.synonyms( testString02, "adverb" ) );
 		
 		assertNull( googleTranslate.synonyms( testString02, "noun" ) );
 		
