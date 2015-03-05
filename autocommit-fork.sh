@@ -2,6 +2,8 @@
 
 set -e
 
+git config user.email "travis-auto@outlook.com"
+
 #git remote add upstream https://github.com/dhowe/RiTranslate
 git fetch upstream
 git checkout master
