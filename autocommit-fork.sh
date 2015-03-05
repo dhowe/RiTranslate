@@ -2,7 +2,10 @@
 
 set -e
 
+#git config user.email "travis-auto@outlook.com"
+git config user.name "travis-auto"
 git config user.email "travis-auto@outlook.com"
+#git config -l
 
 #git remote add upstream https://github.com/dhowe/RiTranslate
 git fetch upstream
