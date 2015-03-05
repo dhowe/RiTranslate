@@ -455,3 +455,20 @@ Already up-to-date.
 Already up-to-date.
 [master 7795514] autocommit
  2 files changed, 2 insertions(+), 1 deletions(-)
+M	autocommit-fork.sh
+Already up-to-date.
+Already up-to-date.
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   autocommit-fork.sh
+#	modified:   autocommit.log
+#	modified:   last_build
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	RiTranslate_autocommit_ta.sh
+no changes added to commit (use "git add" and/or "git commit -a")
