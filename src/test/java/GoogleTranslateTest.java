@@ -20,12 +20,12 @@ public class GoogleTranslateTest {
 	private String testString_03 = "JSON";
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		googleTranslate = new GoogleTranslate();
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		googleTranslate = null;
 	}
 
