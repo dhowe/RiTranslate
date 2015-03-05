@@ -14,6 +14,8 @@ git merge upstream/master
 git pull
 TIMESTAMP=`date +%s`
 sed -i "" "s/##[0-9][0-9]*##/##${TIMESTAMP}##/g" last_build
-git commit -a -m 'autocommit'
+git status
+git commit -a -m 'autocommit-travis'
 git push   
 git push -u upstream master
+exit
