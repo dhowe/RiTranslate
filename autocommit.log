@@ -472,3 +472,6 @@ Already up-to-date.
 #
 #	RiTranslate_autocommit_ta.sh
 no changes added to commit (use "git add" and/or "git commit -a")
+[master 2698a72] autocommit-ta
+ 3 files changed, 21 insertions(+), 5 deletions(-)
+Branch master set up to track remote branch master from upstream.
