@@ -67,14 +67,14 @@ public class GoogleTranslate
   /**
    * Returns all examples for the text
    */
-  @SuppressWarnings("rawtypes")
+  //@SuppressWarnings("rawtypes")
   public String[] examples(String text)
   {
 
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", text);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );
+    // System.out.println( "array: " + array ); // CS: remove these
     // System.out.println( "array.size(): " + array.size() );
 
     if (array.size() < 6) // CS ?
@@ -111,7 +111,7 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );
+    // System.out.println( "array: " + array );// CS: remove these
     // System.out.println( "array.size(): " + array.size() );
 
     if (array.size() < 6) // CS ?
@@ -166,7 +166,7 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", text);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );
+    // System.out.println( "array: " + array );// CS: remove these
     // System.out.println( "array.size(): " + array.size() );
 
     if (array.size() < 5)// CS ?
@@ -196,7 +196,7 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );
+    // System.out.println( "array: " + array );// CS: remove these
     // System.out.println( "array.size(): " + array.size() );
 
     if (array.size() < 6)// CS ?
@@ -225,7 +225,7 @@ public class GoogleTranslate
         {
           // System.out.println( ((ArrayList) buffer.get(j)).get(0) );
           s[j] = (String) ((ArrayList) buffer.get(j)).get(0);
-          // System.out.println(s[j]);
+          // System.out.println(s[j]);// CS: remove these
         }
         return s;
       }
@@ -244,7 +244,7 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );
+    // System.out.println( "array: " + array ); // CS: remove these
     // System.out.println( "array.size(): " + array.size() );
 
     if (array.size() < 6)// CS ?
@@ -270,11 +270,11 @@ public class GoogleTranslate
       {
 
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
-        List<String> list_string = new ArrayList<String>();
+        List<String> list_string = new ArrayList<String>(); // CS: remove _
 
         for (int j = 0; j < buffer.size(); j++)
         {
-          JSONArray jsonarray_j = (JSONArray) buffer.get(j);
+          JSONArray jsonarray_j = (JSONArray) buffer.get(j); // CS: remove _
           JSONArray jsonarray_k = (JSONArray) jsonarray_j.get(0);
 
           for (int k = 0; k < jsonarray_k.size(); k++)
@@ -283,7 +283,7 @@ public class GoogleTranslate
             list_string.add((String) jsonarray_k.get(k));
           }
         }
-        // String[] s = new String[ list_string.size() ];
+        // String[] s = new String[ list_string.size() ]; // CS: remove
         // list_string.toArray( s );
         // List<String> list = Arrays.asList(s);
 
