@@ -13,6 +13,6 @@ git merge upstream/master
 TIMESTAMP=`date +%s`
 sed -i "" "s/##[0-9][0-9]*##/##${TIMESTAMP}##/g" last_build
 git commit -a -m "autocommit-${TIMESTAMP}"
-#git push   
-#git push -u upstream master
+git push -u origin master
+git push -u upstream master
 exit
