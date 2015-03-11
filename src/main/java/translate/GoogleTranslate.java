@@ -5,15 +5,6 @@ import java.util.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
-/*
- * CS:
- *   -- Don't use underscores in Java variable names, eg 'list_string'
- *   -- Never silently fail without at least leaving comments, eg 
-        if (array.size() <= 5)
-          return null;
-     -- Learn to program defensively -- always check that you got what you expected (see comments below)
- *   
- */
 public class GoogleTranslate
 {
   static String TEST_JSON_DATA = null; // set to null to use real data from google
@@ -31,14 +22,16 @@ public class GoogleTranslate
 
     JSONArray array = resultArray(call); 
 
-    if (array == null || array.size() <= 5) // CS ? this needs a comment at very least
-      return null;
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array == null || array.size() < 6) {
+        return null;
+    }
 
-    List<String> list = new ArrayList<String>(); // CS: dont use underscores in variable names
+    List<String> list = new ArrayList<String>(); 
 
     JSONArray trans = (JSONArray) array.get(1);
-    if (trans == null || trans.size() < 1)  // CS: need to be defensive
-      throw new RuntimeException("Unexpected error: trans="+trans+" array="+array);
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
     for (int i = 0; i < trans.size(); i++)
     {
@@ -52,8 +45,8 @@ public class GoogleTranslate
         
       JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
       
-      if (buffer == null || buffer.size() < 1)  // CS: need to be defensive
-        throw new RuntimeException("Unexpected error: buffer="+buffer+" trans="+trans);
+      if (buffer == null || buffer.size() < 1)
+    	  throw new RuntimeException("Unexpected error: buffer="+buffer+" trans="+trans);
       
       for (int j = 0; j < buffer.size(); j++)
       {
@@ -74,29 +67,26 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", text);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array ); // CS: remove these
-    // System.out.println( "array.size(): " + array.size() );
-
-    if (array.size() < 6) // CS ?
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6) 
     {
       return null;
     }
 
     JSONArray trans = (JSONArray) ((JSONArray) array.get(array.size() - 2)).get(0);
-    // System.out.println( "trans: " + trans );
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
     String[] s = new String[trans.size()];
     if (trans.size() == 1)
     {
-      // System.out.println( "trans.size(): " + trans.size() );
       s[0] = text;
       return s;
     }
     for (int i = 0; i < trans.size(); i++)
     {
-      s[i] = (String) ((ArrayList) trans.get(i)).get(0);
+      s[i] = (String) ( (ArrayList) trans.get(i) ).get(0);
       s[i] = s[i].replace("<b>", "").replace("</b>", "");
-      // System.out.println(s[i]);
     }
     return s;
   }
@@ -111,44 +101,41 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );// CS: remove these
-    // System.out.println( "array.size(): " + array.size() );
-
-    if (array.size() < 6) // CS ?
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6)
     {
       return null;
     }
 
     JSONArray trans = ((JSONArray) array.get(5));
-    // System.out.println(trans);
-    String p = pos.toLowerCase();
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
+    
 
     for (int i = 0; i < trans.size(); i++)
     {
       String temp = (String) ((ArrayList) trans.get(i)).get(0);
 
+      String p = pos.toLowerCase();
+      
       if (p.equals(temp))
       {
-        // System.out.println("i: " + i);
-
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
-        List<String> list_string = new ArrayList<String>();
+        
+        if (buffer == null || buffer.size() < 1)
+        	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
+        
+        List<String> list = new ArrayList<String>();
 
         for (int j = 0; j < buffer.size(); j++)
         {
-          // System.out.println( ((ArrayList) buffer.get(j)).get(0) );
-          if (((ArrayList) buffer.get(j)).size() > 2)
+          if ( ( (ArrayList) buffer.get(j) ).size() > 2 )
           {
-            list_string.add((String) ((ArrayList) buffer.get(j)).get(2));
-            // System.out.println( (String) ((ArrayList) buffer.get(j)).get(2)
-            // );
+        	  list.add((String) ((ArrayList) buffer.get(j)).get(2));
           }
         }
-        String[] s = new String[list_string.size()];
-        list_string.toArray(s);
-
-        // for (int j = 0; j < s.length; j++)
-        // System.out.println(s[j]);
+        String[] s = new String[list.size()];
+        list.toArray(s);
 
         return s;
       }
@@ -166,21 +153,20 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", text);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );// CS: remove these
-    // System.out.println( "array.size(): " + array.size() );
-
-    if (array.size() < 5)// CS ?
+	// if the size of JSON file is smaller than 5, meaning that no translation available
+    if (array.size() < 5)
     {
       return null;
     }
 
-    JSONArray trans = (JSONArray) ((JSONArray) array.get(array.size() - 1)).get(0);
+    JSONArray trans = (JSONArray) ( (JSONArray) array.get(array.size() - 1) ).get(0);
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
     String[] s = new String[trans.size()];
     for (int i = 0; i < trans.size(); i++)
     {
       s[i] = (String) trans.get(i);
-      // System.out.println(s[i]);
     }
 
     return s;
@@ -196,16 +182,15 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array );// CS: remove these
-    // System.out.println( "array.size(): " + array.size() );
-
-    if (array.size() < 6)// CS ?
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6)
     {
       return null;
     }
 
-    JSONArray trans = ((JSONArray) array.get(5));
-    // System.out.println( "trans: " + trans );
+    JSONArray trans = ( (JSONArray) array.get(5) );
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
     String p = pos.toLowerCase();
     String[] s;
@@ -216,16 +201,16 @@ public class GoogleTranslate
 
       if (p.equals(temp))
       {
-        // System.out.println("i: " + i);
-
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        if (buffer == null || buffer.size() < 1)
+        	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
+        
         s = new String[buffer.size()];
 
         for (int j = 0; j < buffer.size(); j++)
         {
-          // System.out.println( ((ArrayList) buffer.get(j)).get(0) );
           s[j] = (String) ((ArrayList) buffer.get(j)).get(0);
-          // System.out.println(s[j]);// CS: remove these
         }
         return s;
       }
@@ -244,16 +229,15 @@ public class GoogleTranslate
     String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
     JSONArray array = resultArray(call);
 
-    // System.out.println( "array: " + array ); // CS: remove these
-    // System.out.println( "array.size(): " + array.size() );
-
-    if (array.size() < 6)// CS ?
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6)
     {
       return null;
     }
 
     JSONArray trans = (JSONArray) array.get(4);
-    // System.out.println( "trans: " + trans );
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
     Object cmp = new Double(1.1);
     // check if this is Double type, if yes then that means no synonyms
@@ -270,30 +254,27 @@ public class GoogleTranslate
       {
 
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
-        List<String> list_string = new ArrayList<String>(); // CS: remove _
+        
+        if (buffer == null || buffer.size() < 1)
+        	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
+        
+        List<String> list = new ArrayList<String>();
 
         for (int j = 0; j < buffer.size(); j++)
         {
-          JSONArray jsonarray_j = (JSONArray) buffer.get(j); // CS: remove _
-          JSONArray jsonarray_k = (JSONArray) jsonarray_j.get(0);
+          JSONArray jsonarrayJ = (JSONArray) buffer.get(j);
+          JSONArray jsonarrayK = (JSONArray) jsonarrayJ.get(0);
 
-          for (int k = 0; k < jsonarray_k.size(); k++)
+          for (int k = 0; k < jsonarrayK.size(); k++)
           {
-            // System.out.println( jsonarray_k.get(k) );
-            list_string.add((String) jsonarray_k.get(k));
+            list.add((String) jsonarrayK.get(k));
           }
         }
-        // String[] s = new String[ list_string.size() ]; // CS: remove
-        // list_string.toArray( s );
-        // List<String> list = Arrays.asList(s);
 
-        // remove duplicates
-        Set<String> set = new HashSet<String>(list_string);
+        // remove duplicates from the list
+        Set<String> set = new HashSet<String>(list);
         String[] s = new String[set.size()];
         set.toArray(s);
-
-        // for (int j = 0; j < s.length; j++)
-        // System.out.println(s[j]);
 
         return s;
       }
@@ -336,25 +317,12 @@ public class GoogleTranslate
     Object obj = JSONValue.parse(json);
     JSONArray array = (JSONArray) obj;
 
-    // for (int i = 0; i < array.size(); i++)
-    // System.out.println(i+") "+array.get(i));
 
     return array;
   }
 
   public static void main(String[] args)
   {
-
-    new GoogleTranslate().translations("gamely", "en", "fr");
-    // System.out.println(new GoogleTranslate().translate("bring", "en",
-    // "zh-cn"));
-
-    // new GoogleTranslate().seeAlso("dog");
-    // new GoogleTranslate().examples("meant");
-    // new GoogleTranslate().definitions("manly", "adjective");
-    // new GoogleTranslate().synonyms("good", "noun");
-    // new GoogleTranslate().synonyms("manly", "adjective");
-    // new GoogleTranslate().glosses("meant", "verb");
 
   }
 }
