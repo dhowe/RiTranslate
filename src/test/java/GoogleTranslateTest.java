@@ -92,15 +92,15 @@ public class GoogleTranslateTest {
 		
 		String [] expectedResultFrom_dog = {
 				"hot dog",
+				"dog food",
+				"dog leash",
+				"big dog",
 				"dog tag",
-				"every dog has his day",
-				"mad dog",
-				"dog-eared",
-				"top dog",
-				"Love me, love my dog",
-				"dog collar",
-				"sea dog",
-				"guide dog"
+				"little dog",
+				"female dog",
+				"dog and cat",
+				"stray dog",
+				"every dog has his day"
 		};
 		
 		assertArrayEquals( expectedResultFrom_dog, googleTranslate.seeAlso("dog") );
