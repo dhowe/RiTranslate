@@ -5,346 +5,324 @@ import java.util.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
-public class GoogleTranslate {
-	static String TEST_JSON_DATA = null; // set to null to use real data from google
+public class GoogleTranslate
+{
+  static String TEST_JSON_DATA = null; // set to null to use real data from google
 
-	public static String URL = "https://translate.google.com/translate_a/single?client=t&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=2&ssel=0&tsel=0&tk=516155|367641&q=%TEXT%";
+  public static String URL = "https://translate.google.com/translate_a/single?client=t&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=2&ssel=0&tsel=0&tk=516155|367641&q=%TEXT%";
 
-	/**
-	 * Returns all translations for the text in ranked order for the given
-	 * part-of-speech
-	 */
-	public String[] translations(String text, String fromLang, String toLang,
-			String pos) {
+  /**
+   * Returns all translations for the text in ranked order for the given
+   * part-of-speech
+   */
+  public String[] translations(String text, String fromLang, String toLang, String pos)
+  {
+    
+    String call = URL.replace("%SL%", fromLang).replace("%TL%", toLang).replace("%TEXT%", text);
 
-		String call = URL.replace("%SL%", fromLang).replace("%TL%", toLang)
-				.replace("%TEXT%", text);
-		JSONArray array = resultArray(call);
+    JSONArray array = resultArray(call); 
 
-		if (array.size() <= 5)
-			return null;
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array == null || array.size() < 6) {
+        return null;
+    }
 
-		JSONArray trans = (JSONArray) array.get(1);
+    List<String> list = new ArrayList<String>(); 
 
-		if (pos == null) {
+    JSONArray trans = (JSONArray) array.get(1);
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-			// return translations in ranked order
-			List<String> list_string = new ArrayList<String>();
-			for (int i = 0; i < trans.size(); i++) {
+    for (int i = 0; i < trans.size(); i++)
+    {
+      if (pos != null) { // compare pos if we have one
+        
+          String targetPos = (String) ((ArrayList) trans.get(i)).get(0);
+          
+          if (targetPos != null && !pos.toLowerCase().equals(targetPos))
+            continue;
+      }
+        
+      JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+      
+      if (buffer == null || buffer.size() < 1)
+    	  throw new RuntimeException("Unexpected error: buffer="+buffer+" trans="+trans);
+      
+      for (int j = 0; j < buffer.size(); j++)
+      {
+        list.add((String) buffer.get(j));
+      }
+    }
+    
+    return list.toArray(new String[0]);
+  }
 
-				JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i))
-						.get(1);
+  /**
+   * Returns all examples for the text
+   */
+  //@SuppressWarnings("rawtypes")
+  public String[] examples(String text)
+  {
 
-				for (int j = 0; j < buffer.size(); j++) {
-					list_string.add((String) buffer.get(j));
-				}
-			}
-			String[] s = new String[list_string.size()];
-			list_string.toArray(s);
+    String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", text);
+    JSONArray array = resultArray(call);
 
-			// for (int j = 0; j < s.length; j++)
-				// System.out.println(s[j]);
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6) 
+    {
+      return null;
+    }
 
-			return s;
+    JSONArray trans = (JSONArray) ((JSONArray) array.get(array.size() - 2)).get(0);
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-		} else {
-			String p = pos.toLowerCase();
-			// String[] s = new String[trans.size()];
-			for (int i = 0; i < trans.size(); i++) {
+    String[] s = new String[trans.size()];
+    if (trans.size() == 1)
+    {
+      s[0] = text;
+      return s;
+    }
+    for (int i = 0; i < trans.size(); i++)
+    {
+      s[i] = (String) ( (ArrayList) trans.get(i) ).get(0);
+      s[i] = s[i].replace("<b>", "").replace("</b>", "");
+    }
+    return s;
+  }
 
-				String temp = (String) ((ArrayList) trans.get(i)).get(0);
+  /**
+   * Returns all glosses for the text/pos
+   */
+  @SuppressWarnings("rawtypes")
+  public String[] glosses(String word, String pos)
+  {
 
-				if (p.equals(temp)) {
+    String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
+    JSONArray array = resultArray(call);
 
-					JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i))
-							.get(1);
-					List<String> list_string = new ArrayList<String>();
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6)
+    {
+      return null;
+    }
 
-					for (int j = 0; j < buffer.size(); j++) {
-						list_string.add((String) buffer.get(j));
-					}
-					String[] s = new String[list_string.size()];
-					list_string.toArray(s);
+    JSONArray trans = ((JSONArray) array.get(5));
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
+    
 
-					// for (int j = 0; j < s.length; j++)
-						// System.out.println(s[j]);
+    for (int i = 0; i < trans.size(); i++)
+    {
+      String temp = (String) ((ArrayList) trans.get(i)).get(0);
 
-					return s;
-				}
-			}
-		}
-		return null;
-	}
+      String p = pos.toLowerCase();
+      
+      if (p.equals(temp))
+      {
+        JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        if (buffer == null || buffer.size() < 1)
+        	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
+        
+        List<String> list = new ArrayList<String>();
 
-	/**
-	 * Returns all examples for the text
-	 */
-	@SuppressWarnings("rawtypes")
-	public String[] examples(String text) {
-		
-		String call = URL.replace("%SL%", "en").replace("%TL%", "en")
-				.replace("%TEXT%", text);
-		JSONArray array = resultArray(call);
+        for (int j = 0; j < buffer.size(); j++)
+        {
+          if ( ( (ArrayList) buffer.get(j) ).size() > 2 )
+          {
+        	  list.add((String) ((ArrayList) buffer.get(j)).get(2));
+          }
+        }
+        String[] s = new String[list.size()];
+        list.toArray(s);
 
-		// System.out.println( "array: " + array );
-		// System.out.println( "array.size(): " + array.size() );
-		
-		if ( array.size() < 6 ) {
-			return null;
-		}
-		
-		JSONArray trans = (JSONArray) ((JSONArray) array.get(array.size() - 2)).get(0);
-		// System.out.println( "trans: " + trans );
+        return s;
+      }
+    }
 
-		String[] s = new String[trans.size()];
-		if ( trans.size() == 1 ) {
-			// System.out.println( "trans.size(): " + trans.size() );
-			s[0] = text;
-			return s;
-		}
-		for (int i = 0; i < trans.size(); i++) {
-			s[i] = (String) ((ArrayList) trans.get(i)).get(0);
-			s[i] = s[i].replace("<b>", "").replace("</b>", "");
-			// System.out.println(s[i]);
-		}
-		return s;
-	}
+    return null;
+  }
 
-	/**
-	 * Returns all glosses for the text/pos
-	 */
-	@SuppressWarnings("rawtypes")
-	public String[] glosses(String word, String pos) {
+  /**
+   * Returns all see also for the text
+   */
+  public String[] seeAlso(String text)
+  {
 
-		String call = URL.replace("%SL%", "en").replace("%TL%", "en")
-				.replace("%TEXT%", word);
-		JSONArray array = resultArray(call);
-		
-		// System.out.println( "array: " + array );
-		// System.out.println( "array.size(): " + array.size() );
-		
-		if ( array.size() < 6) {
-			return null;
-		}
-		
-		JSONArray trans = ( (JSONArray) array.get( 5 ) );
-		// System.out.println(trans);
-		String p = pos.toLowerCase();
-						
-		for (int i = 0; i < trans.size(); i++) {
-			String temp = (String) ((ArrayList) trans.get(i)).get(0);
-			
-			if ( p.equals( temp ) ) {
-				// System.out.println("i: " + i);
-				
-				JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
-				List<String> list_string = new ArrayList<String>();
-				
-				for (int j = 0; j < buffer.size(); j++) {
-					// System.out.println( ((ArrayList) buffer.get(j)).get(0) );
-					if ( ((ArrayList) buffer.get(j)).size() > 2) {
-						list_string.add( (String) ((ArrayList) buffer.get(j)).get(2) );
-						// System.out.println( (String) ((ArrayList) buffer.get(j)).get(2) );
-					}
-				}
-				String[] s = new String[ list_string.size() ];
-				list_string.toArray( s );
+    String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", text);
+    JSONArray array = resultArray(call);
 
-				// for (int j = 0; j < s.length; j++)
-					// System.out.println(s[j]);
-				
-				return s;
-			}
-		}
-		
-		return null;
-	}
+	// if the size of JSON file is smaller than 5, meaning that no translation available
+    if (array.size() < 5)
+    {
+      return null;
+    }
 
-	/**
-	 * Returns all see also for the text
-	 */
-	public String[] seeAlso(String text) {
+    JSONArray trans = (JSONArray) ( (JSONArray) array.get(array.size() - 1) ).get(0);
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-		String call = URL.replace("%SL%", "en").replace("%TL%", "en")
-				.replace("%TEXT%", text);
-		JSONArray array = resultArray(call);
-		
-		// System.out.println( "array: " + array );
-		// System.out.println( "array.size(): " + array.size() );
-		
-		if ( array.size() < 5) {
-			return null;
-		}
-		
-		JSONArray trans = (JSONArray) ((JSONArray) array.get(array.size() - 1))
-				.get(0);
+    String[] s = new String[trans.size()];
+    for (int i = 0; i < trans.size(); i++)
+    {
+      s[i] = (String) trans.get(i);
+    }
 
-		String[] s = new String[trans.size()];
-		for (int i = 0; i < trans.size(); i++) {
-			s[i] = (String) trans.get(i);
-			// System.out.println(s[i]);
-		}
+    return s;
+  }
 
-		return s;
-	}
-	
-	/**
-	 * Returns all definitions for the text/pos
-	 */
-	@SuppressWarnings("rawtypes")
-	public String[] definitions(String word, String pos) {
+  /**
+   * Returns all definitions for the text/pos
+   */
+  @SuppressWarnings("rawtypes")
+  public String[] definitions(String word, String pos)
+  {
 
-		String call = URL.replace("%SL%", "en").replace("%TL%", "en")
-				.replace("%TEXT%", word);
-		JSONArray array = resultArray(call);
-		
-		// System.out.println( "array: " + array );
-		// System.out.println( "array.size(): " + array.size() );
-				
-		if ( array.size() < 6 ) {
-			return null;
-		}
-		
-		JSONArray trans = ((JSONArray) array.get( 5 ));
-		// System.out.println( "trans: " + trans );
+    String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
+    JSONArray array = resultArray(call);
 
-		String p = pos.toLowerCase();
-		String[] s;
-						
-		for (int i = 0; i < trans.size(); i++) {
-			String temp = (String) ((ArrayList) trans.get(i)).get(0);
-			
-			if ( p.equals( temp ) ) {
-				// System.out.println("i: " + i);
-				
-				JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
-				s = new String[buffer.size()];
-				
-				for (int j = 0; j < buffer.size(); j++) {
-					// System.out.println( ((ArrayList) buffer.get(j)).get(0) );
-					s[j] = (String) ((ArrayList) buffer.get(j)).get(0);
-					// System.out.println(s[j]);
-				}
-				return s;
-			}
-		}
-		
-		return null;
-	}
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6)
+    {
+      return null;
+    }
 
-	/**
-	 * Returns all synonyms for the text/pos
-	 */
-	@SuppressWarnings("rawtypes")
-	public String[] synonyms(String word, String pos) {
-		
-		String call = URL.replace("%SL%", "en").replace("%TL%", "en")
-				.replace("%TEXT%", word);
-		JSONArray array = resultArray(call);
-		
-		// System.out.println( "array: " + array );
-		// System.out.println( "array.size(): " + array.size() );
-				
-		if ( array.size() < 6 ) {
-			return null;
-		}
+    JSONArray trans = ( (JSONArray) array.get(5) );
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-		JSONArray trans = (JSONArray) array.get( 4 );
-		// System.out.println( "trans: " + trans );
-		
-		Object cmp = new Double(1.1);
-		// check if this is Double type, if yes then that means no synonyms
-		if ( ((ArrayList) trans.get(1)).get(0).getClass().equals( cmp.getClass() ) )
-			return null;
-		
-		String p = pos.toLowerCase();
-						
-		for (int i = 0; i < trans.size(); i++) {
-			String temp = (String) ((ArrayList) trans.get(i)).get(0);
+    String p = pos.toLowerCase();
+    String[] s;
 
-			if (p.equals(temp)) {
+    for (int i = 0; i < trans.size(); i++)
+    {
+      String temp = (String) ((ArrayList) trans.get(i)).get(0);
 
-				JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i))
-						.get(1);
-				List<String> list_string = new ArrayList<String>();
+      if (p.equals(temp))
+      {
+        JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        if (buffer == null || buffer.size() < 1)
+        	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
+        
+        s = new String[buffer.size()];
 
-				for (int j = 0; j < buffer.size(); j++) {
-					JSONArray jsonarray_j = (JSONArray) buffer.get(j);
-					JSONArray jsonarray_k = (JSONArray) jsonarray_j.get(0);
+        for (int j = 0; j < buffer.size(); j++)
+        {
+          s[j] = (String) ((ArrayList) buffer.get(j)).get(0);
+        }
+        return s;
+      }
+    }
 
-					for (int k = 0; k < jsonarray_k.size(); k++) {
-						// System.out.println( jsonarray_k.get(k) );
-						list_string.add((String) jsonarray_k.get(k));
-					}
-				}
-				// String[] s = new String[ list_string.size() ];
-				// list_string.toArray( s );
-			    // List<String> list = Arrays.asList(s);
-				
-				// remove duplicates
-			    Set<String> set = new HashSet<String>(list_string);
-			    String[] s = new String[set.size()];
-			    set.toArray(s);
-			    
-				// for (int j = 0; j < s.length; j++)
-					// System.out.println(s[j]);
-				
-				return s;
-			}
-		}
+    return null;
+  }
 
-		return null;
-	}
+  /**
+   * Returns all synonyms for the text/pos
+   */
+  @SuppressWarnings("rawtypes")
+  public String[] synonyms(String word, String pos)
+  {
 
-	// -------------------------------------------------------------------------
+    String call = URL.replace("%SL%", "en").replace("%TL%", "en").replace("%TEXT%", word);
+    JSONArray array = resultArray(call);
 
-	/**
-	 * Returns all translations for the text in ranked order by part-of-speech
-	 */
-	public String[] translations(String text, String fromLang, String toLang) {
-		return translations(text, fromLang, toLang, null);
-	}
+	// if the size of JSON file is smaller than 6, meaning that no translation available
+    if (array.size() < 6)
+    {
+      return null;
+    }
 
-	/**
-	 * Returns the best translation for the text
-	 */
-	public String translate(String text, String fromLang, String toLang) {
+    JSONArray trans = (JSONArray) array.get(4);
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-		String call = URL.replace("%SL%", fromLang).replace("%TL%", toLang)
-				.replace("%TEXT%", text);
-		JSONArray array = resultArray(call);
+    Object cmp = new Double(1.1);
+    // check if this is Double type, if yes then that means no synonyms
+    if (((ArrayList) trans.get(1)).get(0).getClass().equals(cmp.getClass()))
+      return null;
 
-		return array == null ? null : (((JSONArray) ((JSONArray) array.get(0))
-				.get(0)).get(0)).toString();
-	}
+    String p = pos.toLowerCase();
 
-	private static JSONArray resultArray(String urlTocall) {
-		SouperScraper scraper = new SouperScraper();
-		scraper.ignoreContentType(true);
+    for (int i = 0; i < trans.size(); i++)
+    {
+      String temp = (String) ((ArrayList) trans.get(i)).get(0);
 
-		String json = //TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
-				scraper.connect(urlTocall).body();
+      if (p.equals(temp))
+      {
 
-		Object obj = JSONValue.parse(json);
-		JSONArray array = (JSONArray) obj;
+        JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        if (buffer == null || buffer.size() < 1)
+        	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
+        
+        List<String> list = new ArrayList<String>();
 
-		// for (int i = 0; i < array.size(); i++)
-			// System.out.println(i+") "+array.get(i));
+        for (int j = 0; j < buffer.size(); j++)
+        {
+          JSONArray jsonarrayJ = (JSONArray) buffer.get(j);
+          JSONArray jsonarrayK = (JSONArray) jsonarrayJ.get(0);
 
-		return array;
-	}
+          for (int k = 0; k < jsonarrayK.size(); k++)
+          {
+            list.add((String) jsonarrayK.get(k));
+          }
+        }
 
-	public static void main(String[] args) {
+        // remove duplicates from the list
+        Set<String> set = new HashSet<String>(list);
+        String[] s = new String[set.size()];
+        set.toArray(s);
 
-		// new GoogleTranslate().translations("gamely", "en", "fr");
-		// System.out.println(new GoogleTranslate().translate("bring", "en", "zh-cn"));
-		
-		// new GoogleTranslate().seeAlso("dog");
-		// new GoogleTranslate().examples("meant");
-		// new GoogleTranslate().definitions("manly", "adjective");
-		// new GoogleTranslate().synonyms("good", "noun");
-		// new GoogleTranslate().synonyms("manly", "adjective");
-		// new GoogleTranslate().glosses("meant", "verb");
+        return s;
+      }
+    }
 
-	}
+    return null;
+  }
+
+  // -------------------------------------------------------------------------
+
+  /**
+   * Returns all translations for the text in ranked order by part-of-speech
+   */
+  public String[] translations(String text, String fromLang, String toLang)
+  {
+    return translations(text, fromLang, toLang, null);
+  }
+
+  /**
+   * Returns the best translation for the text
+   */
+  public String translate(String text, String fromLang, String toLang)
+  {
+
+    String call = URL.replace("%SL%", fromLang).replace("%TL%", toLang).replace("%TEXT%", text);
+    JSONArray array = resultArray(call);
+
+    return array == null ? null
+        : (((JSONArray) ((JSONArray) array.get(0)).get(0)).get(0)).toString();
+  }
+
+  private static JSONArray resultArray(String urlTocall)
+  {
+    SouperScraper scraper = new SouperScraper();
+    scraper.ignoreContentType(true);
+
+    String json = // TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
+    scraper.connect(urlTocall).body();
+
+    Object obj = JSONValue.parse(json);
+    JSONArray array = (JSONArray) obj;
+
+
+    return array;
+  }
+
+  public static void main(String[] args)
+  {
+
+  }
 }

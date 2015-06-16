@@ -20,12 +20,12 @@ public class GoogleTranslateTest {
 	private String testString_03 = "JSON";
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		googleTranslate = new GoogleTranslate();
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		googleTranslate = null;
 	}
 
@@ -92,15 +92,15 @@ public class GoogleTranslateTest {
 		
 		String [] expectedResultFrom_dog = {
 				"hot dog",
+				"dog food",
+				"dog leash",
+				"big dog",
 				"dog tag",
-				"every dog has his day",
-				"mad dog",
-				"dog-eared",
-				"top dog",
-				"Love me, love my dog",
-				"dog collar",
-				"sea dog",
-				"guide dog"
+				"little dog",
+				"female dog",
+				"dog and cat",
+				"stray dog",
+				"every dog has his day"
 		};
 		
 		assertArrayEquals( expectedResultFrom_dog, googleTranslate.seeAlso("dog") );
@@ -146,9 +146,9 @@ public class GoogleTranslateTest {
 		String testString02 = "manly";
 		
 		String [] expectedResult02 = {
-				"having or denoting those good qualities traditionally associated with men, such as courage and strength."
+				"manfully"
 		};	
-		assertArrayEquals( expectedResult02, googleTranslate.definitions( testString02, "adjective" ) );
+		assertArrayEquals( expectedResult02, googleTranslate.synonyms( testString02, "adverb" ) );
 		
 		assertNull( googleTranslate.synonyms( testString02, "noun" ) );
 		
