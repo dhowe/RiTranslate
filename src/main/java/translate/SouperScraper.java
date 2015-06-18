@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.*;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 public class SouperScraper
 { 
-  public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.56 Safari/536.5";
+  public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36";
   
   private static final String TIMEOUT = "timeout";
   private static final String REFERRER = "referrer";
@@ -221,6 +222,20 @@ public class SouperScraper
     {
       doc = conn.get();
 
+    }
+    catch (HttpStatusException e)
+    {
+    	if (e.getStatusCode() == 503) {
+    		System.out.println("Request appears to have been "
+    				+ "blocked by Google who is requesting a "
+    				+ "Captcha at the following URL: "
+    				+ e.getUrl());
+    	}
+    	else {
+    		System.out.println("HTTP status code: "
+    				+ e.getStatusCode() + " on the following URL"
+    				+ e.getUrl());
+    	}
     }
     catch (IOException e)
     {
