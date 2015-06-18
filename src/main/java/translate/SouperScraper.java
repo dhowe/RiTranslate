@@ -227,8 +227,13 @@ public class SouperScraper
     {
     	if (e.getStatusCode() == 503) {
     		System.out.println("Request appears to have been "
-    				+ "blocked by google who is requesting a "
+    				+ "blocked by Google who is requesting a "
     				+ "Captcha at the following URL: "
+    				+ e.getUrl());
+    	}
+    	else {
+    		System.out.println("HTTP status code: "
+    				+ e.getStatusCode() + " on the following URL"
     				+ e.getUrl());
     	}
     }
