@@ -23,6 +23,11 @@ public class GoogleTranslateTest {
 	public void setUp() {
 		googleTranslate = new GoogleTranslate();
 	}
+	
+	@Before
+	public void initialise() throws InterruptedException {
+	    Thread.sleep(2000);
+	}
 
 	@After
 	public void tearDown() {
