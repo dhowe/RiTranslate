@@ -205,15 +205,6 @@ public class SouperScraper
     {
       doc = conn.get();
     }
-    catch (HttpStatusException e)
-    {
-    	if (e.getStatusCode() == 503) {
-    		System.out.println("Request appears to have been "
-    				+ "blocked by google who is requesting a "
-    				+ "Captcha at the following URL: "
-    				+ e.getUrl());
-    	}
-    }
     catch (IOException e)
     {
       System.out.println(conn.response());
@@ -231,6 +222,15 @@ public class SouperScraper
     {
       doc = conn.get();
 
+    }
+    catch (HttpStatusException e)
+    {
+    	if (e.getStatusCode() == 503) {
+    		System.out.println("Request appears to have been "
+    				+ "blocked by google who is requesting a "
+    				+ "Captcha at the following URL: "
+    				+ e.getUrl());
+    	}
     }
     catch (IOException e)
     {
