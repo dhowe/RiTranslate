@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -203,6 +204,15 @@ public class SouperScraper
     try
     {
       doc = conn.get();
+    }
+    catch (HttpStatusException e)
+    {
+    	if (e.getStatusCode() == 503) {
+    		System.out.println("Request appears to have been "
+    				+ "blocked by google who is requesting a "
+    				+ "Captcha at the following URL: "
+    				+ e.getUrl());
+    	}
     }
     catch (IOException e)
     {
