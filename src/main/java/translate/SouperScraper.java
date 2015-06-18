@@ -10,7 +10,7 @@ import org.jsoup.nodes.Document;
 
 public class SouperScraper
 { 
-  public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.56 Safari/536.5";
+  public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36";
   
   private static final String TIMEOUT = "timeout";
   private static final String REFERRER = "referrer";
