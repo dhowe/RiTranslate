@@ -1,4 +1,4 @@
-# RiTranslate: open-source translation for computataional writing
+# RiTranslate: open-source translation for computational writing
 <!--[![Build Status](https://travis-ci.org/dhowe/RiTranslate.svg?branch=master)](https://travis-ci.org/dhowe/RiTranslate)-->
 
 A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within their RiTa-based works. 
