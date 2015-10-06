@@ -90,6 +90,11 @@ public class GoogleTranslateTest {
 		assertNull( googleTranslate.glosses( testString_01, "verb" ) );
 		assertNull( googleTranslate.glosses( testString_02, "" ) );
 		assertNull( googleTranslate.glosses( testString_03, "adjective" ) );
+		
+		String [] expectedResult01 = {
+				"Boller estimates there may be as many as 400 to 500 lions, tigers , and other big cats in the Houston area alone."
+		};
+		assertArrayEquals( expectedResult01, googleTranslate.glosses("tiger", "noun") );
 	}
 
 	@Test

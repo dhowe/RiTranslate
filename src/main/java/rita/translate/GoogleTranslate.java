@@ -107,20 +107,38 @@ public class GoogleTranslate
       return null;
     }
 
-    JSONArray trans = ((JSONArray) array.get(5));
+    JSONArray trans = ((JSONArray) array.get(4));
     if (trans == null || trans.size() < 1)
     	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
+
+    String p = pos.toLowerCase();
     
+    // check definitions index in 4 or 5
+    for (int i = 0; i < trans.size(); i++)
+    {
+      String temp = (String) ((ArrayList) trans.get(i)).get(0);
+      if (p.equals(temp))
+      {
+    	  JSONArray buffer0 = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+
+          if (((ArrayList) buffer0.get(0)).size() != 3) {
+        	  trans = ((JSONArray) array.get(5));
+          }
+      }
+    }
 
     for (int i = 0; i < trans.size(); i++)
     {
       String temp = (String) ((ArrayList) trans.get(i)).get(0);
-
-      String p = pos.toLowerCase();
       
       if (p.equals(temp))
       {
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        // check if glosses available
+        if (((ArrayList) buffer.get(0)).size() != 3) {
+        	return null;
+        }
         
         if (buffer == null || buffer.size() < 1)
         	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
