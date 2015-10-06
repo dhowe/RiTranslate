@@ -168,6 +168,9 @@ public class GoogleTranslateTest {
 		assertNull( googleTranslate.synonyms( testString_01, "noun" ) );
 		assertNull( googleTranslate.synonyms( testString_01, "adjective" ) );
 		
+		assertNull( googleTranslate.synonyms( "tiger", "noun" ) );
+		
+		assertNotNull( googleTranslate.synonyms( "goodness", "noun" ) );
 	}
 
 	@Test

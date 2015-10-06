@@ -259,11 +259,6 @@ public class GoogleTranslate
     if (trans == null || trans.size() < 1)
     	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-    Object cmp = new Double(1.1);
-    // check if this is Double type, if yes then that means no synonyms
-    if (((ArrayList) trans.get(1)).get(0).getClass().equals(cmp.getClass()))
-      return null;
-
     String p = pos.toLowerCase();
 
     for (int i = 0; i < trans.size(); i++)
@@ -272,8 +267,11 @@ public class GoogleTranslate
 
       if (p.equals(temp))
       {
-
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        // to check if synonyms available
+        if (((ArrayList) buffer.get(0)).size() != 2)
+        	return null;
         
         if (buffer == null || buffer.size() < 1)
         	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
@@ -299,7 +297,6 @@ public class GoogleTranslate
         return s;
       }
     }
-
     return null;
   }
 
