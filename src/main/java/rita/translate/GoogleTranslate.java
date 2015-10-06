@@ -1,4 +1,4 @@
-package translate;
+package rita.translate;
 
 import java.util.*;
 

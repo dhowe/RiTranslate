@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import translate.GoogleTranslate;
+import rita.translate.GoogleTranslate;
 
 public class GoogleTranslateTest {
 
