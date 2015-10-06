@@ -90,6 +90,11 @@ public class GoogleTranslateTest {
 		assertNull( googleTranslate.glosses( testString_01, "verb" ) );
 		assertNull( googleTranslate.glosses( testString_02, "" ) );
 		assertNull( googleTranslate.glosses( testString_03, "adjective" ) );
+		
+		String [] expectedResult01 = {
+				"Boller estimates there may be as many as 400 to 500 lions, tigers , and other big cats in the Houston area alone."
+		};
+		assertArrayEquals( expectedResult01, googleTranslate.glosses("tiger", "noun") );
 	}
 
 	@Test
@@ -144,6 +149,11 @@ public class GoogleTranslateTest {
 		assertNull( googleTranslate.definitions( testString_01, "noun" ) );
 		assertNull( googleTranslate.definitions( testString_02, "adjective" ) );
 		assertNull( googleTranslate.definitions( testString_03, "adverb" ) );
+		
+		String [] expectedResult03 = {
+				"a very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."
+		};	
+		assertArrayEquals( expectedResult03, googleTranslate.definitions( "tiger", "noun" ) );
 	}
 
 	@Test
@@ -163,6 +173,9 @@ public class GoogleTranslateTest {
 		assertNull( googleTranslate.synonyms( testString_01, "noun" ) );
 		assertNull( googleTranslate.synonyms( testString_01, "adjective" ) );
 		
+		assertNull( googleTranslate.synonyms( "tiger", "noun" ) );
+		
+		assertNotNull( googleTranslate.synonyms( "goodness", "noun" ) );
 	}
 
 	@Test
