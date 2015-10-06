@@ -5,8 +5,7 @@ set -e
 rm -rf dist/library dist/classes
 cp -r target/classes dist/
 cd dist
-jar cvf ../plib/library/RiTranslate.jar classes/*
-#ls -lR ../plib
+jar cvf ../plib/RiTranslate/library/ritranslate.jar classes/*
 cd ../plib
 jar cvf ../RiTranslate.zip *
 cd ..
