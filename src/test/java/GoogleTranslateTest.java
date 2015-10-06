@@ -144,6 +144,11 @@ public class GoogleTranslateTest {
 		assertNull( googleTranslate.definitions( testString_01, "noun" ) );
 		assertNull( googleTranslate.definitions( testString_02, "adjective" ) );
 		assertNull( googleTranslate.definitions( testString_03, "adverb" ) );
+		
+		String [] expectedResult03 = {
+				"a very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."
+		};	
+		assertArrayEquals( expectedResult03, googleTranslate.definitions( "tiger", "noun" ) );
 	}
 
 	@Test
