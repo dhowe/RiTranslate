@@ -3,6 +3,14 @@
 
 A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within their RiTa-based works. 
 
+### Setting up the environment:
+
+1. Download and install [Eclipse](https://eclipse.org/downloads/)
+2. Import RiTranslate, in Eclipse File > Import.. > Git > Projects from Git > Clone URI > URI : https://github.com/dhowe/RiTranslate.git 
+3. Set Eclipse editor to UTF-8 in Window > Preferences > General > Workspace : Text file encoding
+4. Run JUnit test from Package Explorer > RiTranslate > src/test/java > (default package) > Right Click on GoogleTranslateTest.java > Run As > JUnit Test
+
+
 
 <br>
  
