@@ -19,6 +19,7 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 import rita.translate.*;
 
 void setup() {
+
   GoogleTranslate googleTranslate = new GoogleTranslate();
 
   // language code reference: http://www.w3schools.com/tags/ref_language_codes.asp
