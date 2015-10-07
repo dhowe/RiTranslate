@@ -38,8 +38,6 @@ void setup() {
 4. To run the tests, navigate to src/test/java/GoogleTranslateTest.java in the package-explorer, then right-click and select  Run As > JUnit Test
  
 <br>
- 
-<br>
 
 ---
 
