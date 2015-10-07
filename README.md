@@ -9,14 +9,6 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 
 <a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritrans-rect.png"/></a>
 
-### With Eclipse and Maven
-
-1. Download and install [Eclipse](https://eclipse.org/downloads/)
-2. Import RiTranslate, in Eclipse File > Import.. > Git > Projects from Git > Clone URI > URI : https://github.com/dhowe/RiTranslate.git 
-3. Set Eclipse editor to UTF-8 in Window > Preferences > General > Workspace : Text file encoding
-4. Run JUnit test from Package Explorer > RiTranslate > src/test/java > (default package) > Right Click on GoogleTranslateTest.java > Run As > JUnit Test
-
-
 ### With Processing
 
 1. Download and install [Processing](https://processing.org/download/?processing)
@@ -37,12 +29,16 @@ void setup() {
 }
 ```
 
+### With Eclipse and Maven
+
+1. Download and install [Eclipse](https://eclipse.org/downloads/)
+2. Import RiTranslate, in Eclipse File > Import.. > Git > Projects from Git > Clone URI > URI : https://github.com/dhowe/RiTranslate.git 
+3. Set Eclipse editor to UTF-8 in Window > Preferences > General > Workspace : Text file encoding
+4. Run JUnit test from Package Explorer > RiTranslate > src/test/java > (default package) > Right Click on GoogleTranslateTest.java > Run As > JUnit Test
+
+
 <br>
 
- 
-<br>
- 
-<br>
  
 <br>
  
