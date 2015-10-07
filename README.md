@@ -34,14 +34,8 @@ void setup() {
 
 1. Download and install [Eclipse](https://eclipse.org/downloads/)
 2. Import RiTranslate, in Eclipse File > Import.. > Git > Projects from Git > Clone URI > URI : https://github.com/dhowe/RiTranslate.git 
-3. Set Eclipse editor to UTF-8 in Window > Preferences > General > Workspace : Text file encoding
-4. Run JUnit test from Package Explorer > RiTranslate > src/test/java > (default package) > Right Click on GoogleTranslateTest.java > Run As > JUnit Test
-
-
-<br>
-
- 
-<br>
+3. Note: depending on your language, you may need to set your Eclipse editor to use the UTF8 character set: Window > Preferences > General > Workspace :: Text file encoding
+4. To run the tests, navigate to src/test/java/GoogleTranslateTest.java in the package-explorer, then right-click and select  Run As > JUnit Test
  
 <br>
  
@@ -49,4 +43,4 @@ void setup() {
 
 ---
 
-Sponsored in part by a Teaching Development Grant from the City University of Hong Kong
+Sponsored in part by a [Teaching Development Grant](http://www.cityu.edu.hk/edge/grant/tdg/) from the City University of Hong Kong.
