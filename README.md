@@ -9,6 +9,8 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 
 <a href="https://rednoise.org/rita/"><img height=150 src="https://rednoise.org/ritran.png"/></a>
 
+<a href="http://dhowe.github.io/RiTranslate/docs/">javadocs</a>
+
 ### With Processing
 
 1. If needed, download and install [Processing](https://processing.org/download/?processing).
