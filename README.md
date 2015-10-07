@@ -12,7 +12,7 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 ### With Processing
 
 1. If needed, download and install [Processing](https://processing.org/download/?processing).
-2. Download and unzip [RiTranslate.zip](https://github.com/dhowe/RiTranslate/raw/master/RiTranslate.zip) to the "libraries" folder inside your Processing sketchbook (detailed instructions are [here](https://github.com/dhowe/RiTranslate/blob/master/install_instructions.txt)). 
+2. Download and unzip [RiTranslate.zip](https://github.com/dhowe/RiTranslate/raw/master/RiTranslate.zip) to the "libraries" folder inside your Processing sketchbook (detailed instructions [here](https://github.com/dhowe/RiTranslate/blob/master/install_instructions.txt)). 
 3. Restart Processing, then create a test sketch as follows:
 ```processing
 import rita.translate.*;
