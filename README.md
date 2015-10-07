@@ -5,11 +5,9 @@
 
 A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within their RiTa-based works. 
 
-<a href="https://rednoise.org/rita/"><img height=80 src="https://rednoise.org/ritranslate.png"/></a>
+<a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritranslate.png"/></a>
 
-### With Processing
 
-...
 
 ### With Eclipse and Maven
 
@@ -19,8 +17,13 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 4. Run JUnit test from Package Explorer > RiTranslate > src/test/java > (default package) > Right Click on GoogleTranslateTest.java > Run As > JUnit Test
 
 
+### With Processing
+
+...
+
 
 <br>
+
  
 <br>
  
