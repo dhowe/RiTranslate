@@ -7,7 +7,7 @@
 
 A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within their RiTa-based works. 
 
-<a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritranslate.png"/></a>
+<a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritrans.png"/></a>
 
 ### With Eclipse and Maven
 
