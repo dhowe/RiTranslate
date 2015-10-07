@@ -11,9 +11,9 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 
 ### With Processing
 
-1. Download and install [Processing](https://processing.org/download/?processing)
-2. Download and extract [RiTranslate](https://github.com/dhowe/RiTranslate/blob/master/RiTranslate.zip) to Processing Sketch folder (can be found at the preference page of Processing)
-3. Recommanded to enable the Code Completion feature in Processing by going to Preferences > Code completion with Ctrl-space
+1. Download and install [Processing](https://processing.org/download/?processing) (preferably 3.0 or newer)
+2. Download and extract [RiTranslate libraries](https://github.com/dhowe/RiTranslate/blob/master/RiTranslate.zip) to library folder under Processing Sketch or refer to the instructions on [installing Processing libraries](https://github.com/dhowe/RiTranslate/blob/master/install_instructions.txt)
+3. Recommended to enable the Code Completion feature in Processing 3.0 by going to Preferences > Code completion with Ctrl-space
 4. Restart Processing and Run with the following example code
 ```processing
 import rita.translate.*;
