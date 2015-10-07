@@ -11,21 +11,22 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 
 ### With Processing
 
-1. Download and install [Processing](https://processing.org/download/?processing) (preferably 3.0 or newer)
-2. Download and extract [RiTranslate libraries](https://github.com/dhowe/RiTranslate/blob/master/RiTranslate.zip) to library folder under Processing Sketch or refer to the instructions on [installing Processing libraries](https://github.com/dhowe/RiTranslate/blob/master/install_instructions.txt)
-3. Recommended to enable the Code Completion feature in Processing 3.0 by going to Preferences > Code completion with Ctrl-space
-4. Restart Processing and Run with the following example code
+1. Download and install [Processing](https://processing.org/download/?processing) (preferably version 3.0 or newer)
+2. Download and extract [RiTranslate libraries](https://github.com/dhowe/RiTranslate/raw/master/RiTranslate.zip) to the library folder under Processing Sketch or refer to the detailed instructions on [installing Processing libraries](https://github.com/dhowe/RiTranslate/blob/master/install_instructions.txt). Restart Processing after library installation.
+3. Recommended to enable the Code Completion feature in Processing 3.0 by checking Processing > Preferences > Code completion with Ctrl-space option
+
+Create a simple test sketch as follows
 ```processing
 import rita.translate.*;
 
 void setup() {
-
   GoogleTranslate googleTranslate = new GoogleTranslate();
 
   // language code reference: http://www.w3schools.com/tags/ref_language_codes.asp
   String translation = googleTranslate.translate("cat", "en", "zh-Hant");
   
   fill(0);
+  textAlign(CENTER);
   text(translation, width/2, height/2);
 }
 ```
