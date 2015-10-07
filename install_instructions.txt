@@ -22,6 +22,5 @@ Processing
         json-simple-XYZ.jar
         jsoup-XYZ.jar
 
-
 After installing RiTranslate, restart processing.
 
