@@ -11,10 +11,19 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 
 ### With Processing
 
-1. Download and install [Processing](https://processing.org/download/?processing)
-2. Download and extract [RiTranslate](https://github.com/dhowe/RiTranslate/blob/master/RiTranslate.zip) to Processing Sketch folder (can be found at the preference page of Processing)
-3. Recommanded to enable the Code Completion feature in Processing by going to Preferences > Code completion with Ctrl-space
-4. Restart Processing and Run with the following example code
+1. Download and install [Processing](https://processing.org/download/?processing) (if needed).
+2. Download and unzip [RiTranslate libraries](https://github.com/dhowe/RiTranslate/raw/master/RiTranslate.zip) to the "libraries" folder inside your Processing sketchbook (detailed instructions [here](https://github.com/dhowe/RiTranslate/blob/master/install_instructions.txt). 
+3. After unzipping, your folder structure should be as follows:
+```
+Processing
+  libraries
+    RiTranslate
+      library
+        ritranslate.jar
+        json-simple-XYZ.jar
+        jsoup-XYZ.jar
+```
+4. Restart Processing, then create a simple test sketch as follows:
 ```processing
 import rita.translate.*;
 
@@ -26,6 +35,7 @@ void setup() {
   String translation = googleTranslate.translate("cat", "en", "zh-Hant");
   
   fill(0);
+  textAlign(CENTER);
   text(translation, width/2, height/2);
 }
 ```
