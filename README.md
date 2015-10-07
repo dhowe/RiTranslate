@@ -9,8 +9,6 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 
 <a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritranslate.png"/></a>
 
-
-
 ### With Eclipse and Maven
 
 1. Download and install [Eclipse](https://eclipse.org/downloads/)
