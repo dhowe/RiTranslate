@@ -107,20 +107,38 @@ public class GoogleTranslate
       return null;
     }
 
-    JSONArray trans = ((JSONArray) array.get(5));
+    JSONArray trans = ((JSONArray) array.get(4));
     if (trans == null || trans.size() < 1)
     	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
+
+    String p = pos.toLowerCase();
     
+    // check definitions index in 4 or 5
+    for (int i = 0; i < trans.size(); i++)
+    {
+      String temp = (String) ((ArrayList) trans.get(i)).get(0);
+      if (p.equals(temp))
+      {
+    	  JSONArray buffer0 = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+
+          if (((ArrayList) buffer0.get(0)).size() != 3) {
+        	  trans = ((JSONArray) array.get(5));
+          }
+      }
+    }
 
     for (int i = 0; i < trans.size(); i++)
     {
       String temp = (String) ((ArrayList) trans.get(i)).get(0);
-
-      String p = pos.toLowerCase();
       
       if (p.equals(temp))
       {
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        // check if glosses available
+        if (((ArrayList) buffer.get(0)).size() != 3) {
+        	return null;
+        }
         
         if (buffer == null || buffer.size() < 1)
         	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
@@ -187,14 +205,29 @@ public class GoogleTranslate
     {
       return null;
     }
-
-    JSONArray trans = ( (JSONArray) array.get(5) );
-    if (trans == null || trans.size() < 1)
-    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
-
+    
     String p = pos.toLowerCase();
     String[] s;
 
+    JSONArray trans = ((JSONArray) array.get(4));
+    
+    if (trans == null || trans.size() < 1)
+    	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
+
+    // check definitions index in 4 or 5
+    for (int i = 0; i < trans.size(); i++)
+    {
+      String temp = (String) ((ArrayList) trans.get(i)).get(0);
+      if (p.equals(temp))
+      {
+    	  JSONArray buffer0 = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+
+          if (((ArrayList) buffer0.get(0)).size() != 3) {
+        	  trans = ((JSONArray) array.get(5));
+          }
+      }
+    }
+    
     for (int i = 0; i < trans.size(); i++)
     {
       String temp = (String) ((ArrayList) trans.get(i)).get(0);
@@ -202,6 +235,11 @@ public class GoogleTranslate
       if (p.equals(temp))
       {
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        // check if definitions available
+        if (((ArrayList) buffer.get(0)).size() != 3) {
+        	return null;
+        }
         
         if (buffer == null || buffer.size() < 1)
         	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
@@ -239,11 +277,6 @@ public class GoogleTranslate
     if (trans == null || trans.size() < 1)
     	throw new RuntimeException("Unexpected error: trans = " + trans + " array = " + array);
 
-    Object cmp = new Double(1.1);
-    // check if this is Double type, if yes then that means no synonyms
-    if (((ArrayList) trans.get(1)).get(0).getClass().equals(cmp.getClass()))
-      return null;
-
     String p = pos.toLowerCase();
 
     for (int i = 0; i < trans.size(); i++)
@@ -252,8 +285,11 @@ public class GoogleTranslate
 
       if (p.equals(temp))
       {
-
         JSONArray buffer = (JSONArray) ((JSONArray) trans.get(i)).get(1);
+        
+        // to check if synonyms available
+        if (((ArrayList) buffer.get(0)).size() != 2)
+        	return null;
         
         if (buffer == null || buffer.size() < 1)
         	throw new RuntimeException("Unexpected error: buffer = " + buffer + " trans = " + trans);
@@ -279,7 +315,6 @@ public class GoogleTranslate
         return s;
       }
     }
-
     return null;
   }
 

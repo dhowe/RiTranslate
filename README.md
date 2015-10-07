@@ -1,11 +1,15 @@
+
+
 ## RiTranslate: open-source translation for computational writing
 <!--[![Build Status](https://travis-ci.org/dhowe/RiTranslate.svg?branch=master)](https://travis-ci.org/dhowe/RiTranslate)-->
 
+<a href="http://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL-orange.svg" alt="npm version"></a>
+
 A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within their RiTa-based works. 
 
-### With Processing
+<a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritranslate.png"/></a>
 
-...
+
 
 ### With Eclipse and Maven
 
@@ -15,8 +19,13 @@ A set of new translation features for the RiTa toolkit, allowing users to  do pr
 4. Run JUnit test from Package Explorer > RiTranslate > src/test/java > (default package) > Right Click on GoogleTranslateTest.java > Run As > JUnit Test
 
 
+### With Processing
+
+...
+
 
 <br>
+
  
 <br>
  
