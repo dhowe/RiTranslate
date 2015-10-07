@@ -2,11 +2,19 @@
 
 set -e
 
-rm -rf dist/library dist/classes
-cp -r target/classes dist/
-cd dist
-jar cvf ../plib/RiTranslate/library/ritranslate.jar classes/*
-cd ../plib
+mvn compile
+#rm -rf dist/library dist/classes
+#p -r target/classes* dist/
+#d dist
+
+cd target/classes
+jar cf ../../plib/RiTranslate/library/ritranslate.jar *
+cd -
+
+jar tf plib/RiTranslate/library/ritranslate.jar
+
+cd plib
 jar cvf ../RiTranslate.zip *
 cd ..
+
 jar tf RiTranslate.zip
