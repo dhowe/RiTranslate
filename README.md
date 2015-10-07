@@ -5,7 +5,7 @@
 
 <a href="http://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL-orange.svg" alt="npm version"></a>
 
-A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within their RiTa-based works. 
+A set of new translation features for the RiTa toolkit, allowing users to  do programmatic, real-time translation from within RiTa-based works. 
 
 <a href="https://rednoise.org/rita/"><img height=180 src="https://rednoise.org/ritran.png"/></a>
 
