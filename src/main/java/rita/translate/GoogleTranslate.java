@@ -9,7 +9,9 @@ public class GoogleTranslate
 {
   static String TEST_JSON_DATA = null; // set to null to use real data from google
 
-  public static String URL = "https://translate.google.com/translate_a/single?client=t&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=2&ssel=0&tsel=0&tk=516155|367641&q=%TEXT%";
+  public static String URL = "https://translate.google.com/translate_a/single?client=p&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=1&tk=244084.367749&q=%TEXT%&"; 
+  		//"https://translate.google.com/#%SL%/%TL%/%TEXT%";
+  		//"https://translate.google.com/translate_a/single?client=t&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=2&ssel=0&tsel=0&tk=516155|367641&q=%TEXT%";
 
   /**
    * Returns all translations for the text in ranked order for the given
@@ -345,19 +347,19 @@ public class GoogleTranslate
   {
     SouperScraper scraper = new SouperScraper();
     scraper.ignoreContentType(true);
-
+    
     String json = // TEST_JSON_DATA != null ? RiTa.loadString(TEST_JSON_DATA)
-    scraper.connect(urlTocall).body();
+    		scraper.connect(urlTocall).body();
 
     Object obj = JSONValue.parse(json);
     JSONArray array = (JSONArray) obj;
-
 
     return array;
   }
 
   public static void main(String[] args)
   {
-
+		GoogleTranslate googleTranslate = new GoogleTranslate();
+  	System.out.println(Arrays.asList(googleTranslate.translations("dog", "en", "fr")));
   }
 }
