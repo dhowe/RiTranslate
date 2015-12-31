@@ -355,11 +355,11 @@ public class GoogleTranslate {
 	protected void setHeaders(SouperScraper scraper) {
 		
 		scraper.ignoreContentType(true)
-			.header("Accept-Language", "en-US,en;q=0.5")
-	    .header("Accept-Encoding", "gzip, deflate")
-	    .header("Host", "translate.google.com")
-	    .header("Connection", "keep-alive")
-	    .header("Accept","text/html,application/xhtml+xml,application/xml.q=0.9,*/*.q=0.8")
+//			.header("Accept-Language", "en-US,en;q=0.5")
+//	    .header("Accept-Encoding", "gzip, deflate")
+//	    .header("Host", "translate.google.com")
+//	    .header("Connection", "keep-alive")
+//	    .header("Accept","text/html,application/xhtml+xml,application/xml.q=0.9,*/*.q=0.8")
 	    .referrer(REFERRER);
 		
 		if (sendCookies) scraper.cookies(cookies);
