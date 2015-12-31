@@ -13,7 +13,7 @@ public class GoogleTranslate {
 	public static boolean SILENT = false;
 	public static Map<String, Object> cache = new HashMap<String, Object>();
 	
-	public boolean useCache = true, dbugCache = true, sendCookies = true;
+	public boolean useCache = true, dbugCache = true, sendCookies = false;
 	
 	static {
 		cookies.put("NID",  "75=tR2W5aro8hnnthszdj3XH8ivXm8xYoOWPt2Ue6Ey9cFgHnLxMqACvRC5Ne4_K888oEXPrnnC8-nUPsOW6Lwe9lKiOQEVUreexSAaP9G6-RY2QO1n5Thojrf6JksaGdOrBctf8Xd_");
