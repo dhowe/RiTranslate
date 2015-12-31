@@ -10,33 +10,15 @@ import org.jsoup.nodes.Document;
 
 public class SouperScraper
 { 
-	class RiTranslateException extends RuntimeException {
-	  public RiTranslateException(String s)
-	  {
-	    super(s);
-	  }
-	  public RiTranslateException(Throwable e)
-	  {
-	    super(e);
-	  }
-	  public RiTranslateException(String s, Throwable e)
-	  {
-	    super(s, e);
-	  }
-	  public RiTranslateException()
-	  {
-	    super();
-	  }
-	}
-	
-  public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36";
+  public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:43.0) Gecko/20100101 Firefox/43.0";
+  public static boolean DBUG_OPTS = true;
   
-  private static final String TIMEOUT = "timeout";
-  private static final String REFERRER = "referrer";
-  private static final String USER_AGENT = "userAgent";
-  private static final String FOLLOW_REDIRECTS = "followRedirects";
-  private static final String IGNORE_CONTENT_TYPE = "ignoreContentType";
-  private static final String IGNORE_HTTP_ERRORS = "ignoreHttpErrors";
+  protected static final String TIMEOUT = "timeout";
+  protected static final String REFERRER = "referrer";
+  protected static final String USER_AGENT = "userAgent";
+  protected static final String FOLLOW_REDIRECTS = "followRedirects";
+  protected static final String IGNORE_CONTENT_TYPE = "ignoreContentType";
+  protected static final String IGNORE_HTTP_ERRORS = "ignoreHttpErrors";
   
   public Connection conn;
   public Document doc;
@@ -48,8 +30,6 @@ public class SouperScraper
     options = new HashMap<String, String>();
     cookies = new HashMap<String, String>();
     headers = new HashMap<String, String>();
-    
-    options.put(USER_AGENT, DEFAULT_USER_AGENT); // sent by default (call userAgent(null); to disable)
   }
 
   public SouperScraper connect(String url)
@@ -152,7 +132,7 @@ public class SouperScraper
     return this;
   }
 
-  private SouperScraper prepareConnection()
+  protected SouperScraper prepareConnection()
   {
     if (conn == null)
       throw new RuntimeException("Null Connection: Call connect(url) first!");
@@ -162,56 +142,68 @@ public class SouperScraper
     return this;
   }
 
-  private SouperScraper setOptions()
+  protected SouperScraper setOptions()
   {
     if (options.containsKey(TIMEOUT)) {
+    	if (DBUG_OPTS) System.out.println(TIMEOUT+": "+options.get(TIMEOUT));
       conn.timeout(Integer.parseInt(options.get(TIMEOUT)));
     }  
     if (options.containsKey(REFERRER)) {
+    	if (DBUG_OPTS) System.out.println(REFERRER+": "+options.get(REFERRER));
       conn.referrer(options.get(REFERRER));
     }  
     if (options.containsKey(USER_AGENT)) {
+    	if (DBUG_OPTS) System.out.println(USER_AGENT+": "+options.get(USER_AGENT));
       conn.userAgent(options.get(USER_AGENT));
     }  
     if (options.containsKey(FOLLOW_REDIRECTS)) {
+    	if (DBUG_OPTS) System.out.println(FOLLOW_REDIRECTS+": "+options.get(FOLLOW_REDIRECTS));
       conn.followRedirects(Boolean.parseBoolean(options.get(FOLLOW_REDIRECTS)));
     }
     if (options.containsKey(IGNORE_HTTP_ERRORS)) {
+    	if (DBUG_OPTS) System.out.println(IGNORE_HTTP_ERRORS+": "+options.get(IGNORE_HTTP_ERRORS));
       conn.ignoreHttpErrors(Boolean.parseBoolean(options.get(IGNORE_HTTP_ERRORS)));
     }
     if (options.containsKey(IGNORE_CONTENT_TYPE)) {
+    	if (DBUG_OPTS) System.out.println(IGNORE_CONTENT_TYPE+": "+options.get(IGNORE_CONTENT_TYPE));
       conn.ignoreContentType(Boolean.parseBoolean(options.get(IGNORE_CONTENT_TYPE)));
     } 
     
     return this;
   }
 
-  private SouperScraper setHeaders()
+  protected SouperScraper setHeaders()
   {
     for (Iterator it = headers.keySet().iterator(); it.hasNext();)
     {
       String key = (String) it.next();
-      conn.header(key, headers.get(key));
+      String val =  headers.get(key);
+    	if (DBUG_OPTS) System.out.println(key+": "+val);
+      conn.header(key, val);
     }
     return this;
   }
 
-  private SouperScraper setCookies()
+  protected SouperScraper setCookies()
   {
     for (Iterator it = cookies.keySet().iterator(); it.hasNext();)
     {
       String key = (String) it.next();
-      conn.cookie(key, cookies.get(key));
+      String val =  cookies.get(key);
+    	if (DBUG_OPTS) System.out.println(key+": "+val);
+      conn.cookie(key, val);
     }
     return this;
   }
   
-  private SouperScraper setPostData()
+  protected SouperScraper setPostData()
   {
     for (Iterator it = data.keySet().iterator(); it.hasNext();)
     {
       String key = (String) it.next();
-      conn.data(key, data.get(key));
+      String val =  data.get(key);
+    	if (DBUG_OPTS) System.out.println(key+": "+val);
+      conn.data(key, val);
     }
     return this;
   }
@@ -246,11 +238,11 @@ public class SouperScraper
     {
     	if (e.getStatusCode() == 503) {
     		throw new RiTranslateException("Request appears to have been "
-    				+ "blocked by Google (503) who is requesting a "
+    				+ "blocked by Google (code: 503) who is requesting a "
     				+ "Captcha at the following URL:\n"+e.getUrl()+"\n");
     	}
-    		throw new RiTranslateException("Request received HTTP status code: "
-    				+ e.getStatusCode() + " on the following URL:\n"+ e.getUrl()+"\n");
+  		throw new RiTranslateException("Request received HTTP status "
+  				+ e.getStatusCode() + " for URL:\n"+ e.getUrl()+"\n");
     }
     catch (IOException e)
     {
@@ -293,6 +285,26 @@ public class SouperScraper
 
     return doc.outerHtml();
   }
+  
+  class RiTranslateException extends RuntimeException {
+	  public RiTranslateException(String s)
+	  {
+	    super(s);
+	  }
+	  public RiTranslateException(Throwable e)
+	  {
+	    super(e);
+	  }
+	  public RiTranslateException(String s, Throwable e)
+	  {
+	    super(s, e);
+	  }
+	  public RiTranslateException()
+	  {
+	    super();
+	  }
+	}
+	
   public static void main(String[] args)
   {
     /*fetchCookies("http://google.com");

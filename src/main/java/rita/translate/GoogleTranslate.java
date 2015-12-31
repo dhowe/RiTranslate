@@ -7,13 +7,19 @@ import org.json.simple.JSONValue;
 
 public class GoogleTranslate {
 
-	public static boolean SILENT = false;
-
 	public static String URL = "https://translate.google.com/translate_a/single?client=p&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=1&tk=244084.367749&q=%TEXT%&";
-
-	static Map<String, Object> cache = new HashMap<String, Object>();
+	public static String REFERRER = "https://translate.google.com/";
+	public static Map<String, String> cookies = new HashMap<String, String>();
+	public static boolean SILENT = false;
+	public static Map<String, Object> cache = new HashMap<String, Object>();
 	
-	public boolean useCache = true, dbugCache = true;
+	public boolean useCache = true, dbugCache = true, sendCookies = true;
+	
+	static {
+		cookies.put("NID",  "75=tR2W5aro8hnnthszdj3XH8ivXm8xYoOWPt2Ue6Ey9cFgHnLxMqACvRC5Ne4_K888oEXPrnnC8-nUPsOW6Lwe9lKiOQEVUreexSAaP9G6-RY2QO1n5Thojrf6JksaGdOrBctf8Xd_");
+		cookies.put("OGPC", "5061869-1:");
+		cookies.put("_ga",  "GA1.3.2050087472.1451559205");
+	}
 
 	/**
 	 * Returns all translations for the text in ranked order for the given
@@ -339,10 +345,24 @@ public class GoogleTranslate {
 	}
 
 	protected JSONArray resultArray(String urlTocall) {
+		
 		SouperScraper scraper = new SouperScraper();
-		scraper.ignoreContentType(true);
-		Object obj = getJSON(urlTocall, scraper);
-		return (JSONArray) obj;
+		setHeaders(scraper);
+		
+		return (JSONArray) getJSON(urlTocall, scraper);
+	}
+
+	protected void setHeaders(SouperScraper scraper) {
+		
+		scraper.ignoreContentType(true)
+			.header("Accept-Language", "en-US,en;q=0.5")
+	    .header("Accept-Encoding", "gzip, deflate")
+	    .header("Host", "translate.google.com")
+	    .header("Connection", "keep-alive")
+	    .header("Accept","text/html,application/xhtml+xml,application/xml.q=0.9,*/*.q=0.8")
+	    .referrer(REFERRER);
+		
+		if (sendCookies) scraper.cookies(cookies);
 	}
 
 	protected Object getJSON(String urlToCall, SouperScraper scraper) {
@@ -379,6 +399,7 @@ public class GoogleTranslate {
 	}
 
 	public static void main(String[] args) {
+		
 		GoogleTranslate googleTranslate = new GoogleTranslate();
 		for (int i = 0; i < 3; i++) {
 			System.out.println(Arrays.asList(googleTranslate.translations("dog", "en","fr")));
