@@ -10,6 +10,25 @@ import org.jsoup.nodes.Document;
 
 public class SouperScraper
 { 
+	class RiTranslateException extends RuntimeException {
+	  public RiTranslateException(String s)
+	  {
+	    super(s);
+	  }
+	  public RiTranslateException(Throwable e)
+	  {
+	    super(e);
+	  }
+	  public RiTranslateException(String s, Throwable e)
+	  {
+	    super(s, e);
+	  }
+	  public RiTranslateException()
+	  {
+	    super();
+	  }
+	}
+	
   public static final String DEFAULT_USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36";
   
   private static final String TIMEOUT = "timeout";
@@ -221,29 +240,23 @@ public class SouperScraper
     try
     {
       doc = conn.get();
-
+      return doc.body().ownText();
     }
     catch (HttpStatusException e)
     {
     	if (e.getStatusCode() == 503) {
-    		System.out.println("Request appears to have been "
-    				+ "blocked by Google who is requesting a "
-    				+ "Captcha at the following URL: "
-    				+ e.getUrl());
+    		throw new RiTranslateException("Request appears to have been "
+    				+ "blocked by Google (503) who is requesting a "
+    				+ "Captcha at the following URL:\n"+e.getUrl()+"\n");
     	}
-    	else {
-    		System.out.println("HTTP status code: "
-    				+ e.getStatusCode() + " on the following URL"
-    				+ e.getUrl());
-    	}
+    		throw new RiTranslateException("Request received HTTP status code: "
+    				+ e.getStatusCode() + " on the following URL:\n"+ e.getUrl()+"\n");
     }
     catch (IOException e)
     {
       System.out.println(conn.response());
       throw new RuntimeException(e);
     }
-
-    return doc.body().ownText();
   }
   
   public String head()
@@ -285,9 +298,6 @@ public class SouperScraper
     /*fetchCookies("http://google.com");
     //loadCookiesFromDisk();
     if (1==1) return;*/
-
-
-
     SouperScraper scraper = new SouperScraper();
     scraper.header("User-Agent", DEFAULT_USER_AGENT).
       header("Accept-Language", "en-US,en.q=0.8").
