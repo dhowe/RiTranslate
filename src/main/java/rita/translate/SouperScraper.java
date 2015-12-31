@@ -30,6 +30,9 @@ public class SouperScraper
     options = new HashMap<String, String>();
     cookies = new HashMap<String, String>();
     headers = new HashMap<String, String>();
+    
+    // sent by default (call userAgent(null); to disable)
+    options.put(USER_AGENT, DEFAULT_USER_AGENT); 
   }
 
   public SouperScraper connect(String url)
