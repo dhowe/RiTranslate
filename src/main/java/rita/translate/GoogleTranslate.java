@@ -7,7 +7,8 @@ import org.json.simple.JSONValue;
 
 public class GoogleTranslate {
 
-	public static String URL = "https://translate.google.com/translate_a/single?client=p&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=1&tk=244084.367749&q=%TEXT%&";
+	public static String URL = "https://translate.google.com/translate_a/single?client=p&sl=%SL%&tl=%TL%&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=1&tk=244084.367749&q=%TEXT%";
+
 	public static String REFERRER = "https://translate.google.com/";
 	public static Map<String, String> cookies = new HashMap<String, String>();
 	public static boolean SILENT = false;
